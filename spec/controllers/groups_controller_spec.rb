@@ -176,4 +176,23 @@ describe GroupsController do
       it { expect { delete :destroy, {id: group.to_param} }.to raise_error(Group::NotGroupOwner) }
     end
   end
+
+  describe "GET 'join'" do
+    let!(:group) { FactoryGirl.create(:group) }
+
+    context 'Loginしているとき' do
+      let(:you) { FactoryGirl.create(:user) }
+      before do
+        login_as(you)
+        get :join, id: group.to_param
+      end
+
+      it { response.should redirect_to(group_url) }
+    end
+
+    context 'Loginしていないとき' do
+      before { bypass_rescue }
+      it { expect { get :join, id: group.to_param }.to raise_error(User::UnAuthorized) }
+    end
+  end
 end
