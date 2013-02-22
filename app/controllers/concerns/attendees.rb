@@ -4,7 +4,7 @@ module Attendees
   extend ActiveSupport::Concern
 
   included do
-    before_filter :_login_required, only: [:attend]
+    before_filter :login_required, only: [:attend]
     before_filter :_find_event, only: [:attend, :delete, :absent, :maybe]
     before_filter :_find_group, only: [:attend]
     before_filter :_member_only, only: [:attend]

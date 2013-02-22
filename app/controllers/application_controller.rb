@@ -33,7 +33,6 @@ class ApplicationController < ActionController::Base
       raise(User::UnAuthorized)
     end
   end
-  alias :_login_required :login_required # XXX: for concerns
 
   def only_group_owner(group = nil)
     login_required
