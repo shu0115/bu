@@ -5,7 +5,7 @@ module Members
 
   included do
     before_filter :_find_group, only: [:join, :leave, :request_to_join, :delete_request] #TODO インクルード先での衝突回避
-    before_filter :login_required, only: [:join, :request_to_join, :delete_request]
+    before_filter :_login_required, only: [:join, :request_to_join, :delete_request]
     before_filter :member_only, only: [:leave]
   end
 
@@ -54,11 +54,29 @@ module Members
   end
 
   private
+  def member_only #TODO 認可関連のフィルターは抜本的に整理する
+    only_group_member(@group)
+  end
+
+  # _ からはじまるfilter methodの注
+  #
+  # MembersモジュールがGroupsControllerにincludeされると
+  # filterは以下のようになり意図した通りに実行されないことが観察されました
+  #
+  # before_filter :find_group, only: [:new, :edit, :show]
+  # before_filter :find_group, only: [:join, :leave, :request_to_join, :delete_request] <= こちらが意図したとおりに実行されない
+  #
+  # Membersモジュールはネステッドリソースを利用してControllerで実装しなおされる予定なので
+  # 衝突をさける実装を行い意図しない挙動を避ける方向で回避します
+  #
+  # before_filter :find_group, only: [:new, :edit, :show]
+  # before_filter :_find_group, only: [:join, :leave, :request_to_join, :delete_request]
+  #
   def _find_group #TODO インクルード先での衝突回避
     @group = Group.find(params[:id])
   end
 
-  def member_only #TODO
-    only_group_member(@group)
+  def _login_required
+    login_required
   end
 end
