@@ -18,8 +18,8 @@ describe "Groups" do
     end
 
     context "DELETE /group/1" do
-      before { click_link '__Destroy__' }
-      it { page.current_path.should eq group_path(group) + '/destroy_confirm' }
+      before { click_link 'Destroy' }
+      it { page.current_path.should eq my_path }
     end
   end
 

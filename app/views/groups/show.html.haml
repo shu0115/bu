@@ -33,19 +33,19 @@
 - is_member = @group.member?(@user)
 - if !is_member and !@group.hidden?
   - if @group.public?
-    %p.update= link_to _('join this group'), "#{@group.id}/join"
+    %p.update= link_to _('join this group'), join_group_members_path(group_id: @group.id), method: :put
   - elsif @group.requesting_user?(@user)
-    %p.update= link_to _('cancel request'), "#{@group.id}/delete_request"
+    %p.update= link_to _('cancel request'), delete_request_group_members_path(group_id: @group.id), method: :put
   - else
-    %p.update= link_to _('ask to join this group'), "#{@group.id}/request_to_join"
+    %p.update= link_to _('ask to join this group'), request_to_join_group_members_path(group_id: @group.id), method: :put
 
 - unless is_secret
   .events
     %h2=_ :Events
-    = render 'events', { events: @events, user: @user }
+    = render 'events', { group: @group, events: @events, user: @user }
   .events_new
     - if is_member
-      %p= link_to _('new event'), "/events/new"
+      %p= link_to _('new event'), new_group_event_path(group_id: @group)
 
   - unless @group.hidden?
     .posts
@@ -73,7 +73,7 @@
           %th
           - @events.each do |event|
             %td
-              - link = link_to month_day(event.started_at), event
+              - link = link_to month_day(event.started_at), group_event_path(event.id)
               - if event.ended?
                 = link
               - else
@@ -95,22 +95,20 @@
                 - if atnd
                   = { 'at' => '+', 'ab' => '-', 'ma' => '?' }[atnd.state[0..1]]
       %p
-        = link_to _('listing users'), group_path + '/users'
+        = link_to _('listing users'), group_members_path(group_id: @group.id)
         - if @group.manager?(@user) and !@group.public?
           - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
-          = link_to text, group_path + '/member_requests'
+          = link_to text, group_groups_member_requests_path(group_id: @group.id)
 
   .bottom_menu
     - if is_member and !@group.owner?(@user) and !@group.hidden?
-      %p.update= link_to _('leave this group'), "#{@group.id}/leave"
+      %p.update= link_to _('leave this group'), leave_group_members_path(group_id: @group.id) ,method: :put
     - if @user and @group.owner?(@user)
       %h2=_ 'Admin menu'
       = link_to 'Edit', edit_group_path(@group)
       - if @group.users.count <= 1
-        %span#JSOK{ :style => "display:none;" }
+        %span
           = link_to 'Destroy', @group, :confirm => 'Are you sure?', :method => :delete
-        %span#JSNG{ :style => "" }
-          = link_to '__Destroy__', group_path + '/destroy_confirm'
         %script
           document.getElementById("JSOK").style.display = "inline";
           document.getElementById("JSNG").style.display = "none";
