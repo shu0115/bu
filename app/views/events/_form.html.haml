@@ -1,5 +1,3 @@
-- last = Group.find(params[:group_id]).events.find(:first, :order => 'id desc')
-- last ||= Event.new
 - is_hidden = group.hidden?
 = form_for [group, event] do |f|
   -if event.errors.any?
