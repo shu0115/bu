@@ -3,6 +3,6 @@
   .text
     = @comment.text
   .date_time
-    %span.small= link_to date_time(@comment.created_at), @comment
+    %span.small= link_to date_time(@comment.created_at), group_event_comment_path(group_id: @group.id, event_id: @event.id, id: @comment.id)
 
-= link_to 'Back', @comment.event
+= link_to 'Back', group_event_path(group_id: @comment.event.group.id, id: @comment.event)
