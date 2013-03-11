@@ -3,4 +3,4 @@
 = render 'form', { event: @event, group: @group }
 
 .bottom_menu
-  = link_to 'Back', @event
+  = link_to 'Back', group_event_url(id: @event.id, group_id: @group.id)

@@ -15,7 +15,7 @@
 %table
   %tr
     %td== #{_ 'event owner'} :
-    %td= link_to @event.owner.name, @event.owner
+    %td= link_to @event.owner.name, user_path(id: @event.owner.id)
 
   %tr
     %td== #{_ :date} :
@@ -57,23 +57,23 @@
     =_ :unknown
     - if group.public?
       %span.update.atnd
-        %span.attend= link_to _(:attend), event_path(@event) + '/attend'
+        %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
     - else
       = link_to 'Please login...', '/users/new'
   - elsif atnd = @user.atnd(@event)
     %span.atnd== #{_ atnd.state.capitalize}
-    %span.update= link_to _(:cancel), event_path(@event) + '/delete'
+    %span.update= link_to _(:cancel), delete_group_event_attendees_path(event_id: @event.id), method: :put
   - elsif group.member?(@user)
     =_ :unknown
     %span.update.atnd
-      %span.attend= link_to _(:attend), event_path(@event) + '/attend'
-      %span.absent= link_to _(:absent), event_path(@event) + '/absent'
-      %span.maybe=  link_to _(:maybe), event_path(@event) + '/maybe'
+      %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
+      %span.absent= link_to _(:absent), absent_group_event_attendees_path(event_id: @event.id), method: :put
+      %span.maybe= link_to _(:maybe), maybe_group_event_attendees_path(event_id: @event.id), method: :put
   - else
     =_ :unknown
     - if group.public?
       %span.update.atnd
-        %span.attend= link_to _(:attend), event_path(@event) + '/attend'
+        %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
     - else
       You are not a member of
       = link_to group.name, group
@@ -116,7 +116,7 @@
 
 %h2=_ 'Comments and Logs'
 - if @user and group.member?(@user)
-  = render 'comments/form', comment: @comment
+  = render 'comments/form', comment: @comment, group: @group, event: @event
 
 %table.comments
   - @event.comments.order('created_at desc').each do |comment|
@@ -127,18 +127,18 @@
         = link_to comment.user_name, comment.user
       %td
         != comment_html_compiler(comment.text)
-        %span.small= link_to date_time(comment.created_at), comment
+        %span.small= link_to date_time(comment.created_at), group_event_comment_path(group_id: @group.id, event_id: @event.id, id: comment.id)
 
 
 - if @user and @event.manager?(@user)
   .admin_menu
     %h2=_ 'admin menu'
-    = link_to _(:Edit), edit_event_path(@event)
+    = link_to _(:Edit), edit_group_event_path(group_id: @group.id, id: @event.id)
     - if @event.canceled?
-      = link_to _('Be active'), event_path(@event) + '/be_active'
+      = link_to _('Be active'), be_active_group_event_path(group_id: @group.id, id: @event.to_param), method: :put
     - else
-      = link_to _('Cancel Event'), event_path(@event) + '/cancel'
-    = link_to _(:Destroy), @event, :confirm => 'Destroy event: Are you sure?', :method => :delete
+      = link_to _('Cancel Event'), cancel_group_event_path(group_id: @group.id, id: @event.to_param), method: :put
+    = link_to _(:Destroy), group_event_path(group_id: @group.id, id: @event.id), :confirm => 'Destroy event: Are you sure?', :method => :delete
 
 .bottom_menu
   - unless group.hidden?

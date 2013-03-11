@@ -1,4 +1,4 @@
-- if group_id = session[:group_id]
+- if group_id = params[:group_id]
   - group = Group.find(group_id)
   %h3= link_to group.name, group
 %h1=_'New event'
