@@ -45,10 +45,8 @@ group :test, :development do
 #  gem 'pry-coolline'  # 2013/03/18 bundle installエラー：「An error occurred while installing io-console (0.3), and Bundler cannot continue.」
   gem 'capybara'
   gem 'launchy'
-#  gem 'headless'
   gem 'shoulda-matchers', :git => 'git://github.com/thoughtbot/shoulda-matchers.git', :ref => 'fd4aa5'
   gem 'simplecov', require: false
-  gem 'heroq', :git => 'git://github.com/1syo/heroq.git', :tag => 'v0.0.1'
   #gem 'rails-erd'
 
   gem "sextant"  # /rails/routes

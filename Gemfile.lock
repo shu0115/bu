@@ -105,7 +105,7 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hashie (1.2.0)
-    heroku-api (0.3.8)
+    heroku-api (0.3.7)
       excon (~> 0.16.10)
     hike (1.2.1)
     hikidoc (0.0.6)
