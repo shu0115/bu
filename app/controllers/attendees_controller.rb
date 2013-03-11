@@ -1,15 +1,9 @@
-# coding: utf-8
-# TODO: 適正なcontrollerに再配置する
-module Attendees
-  extend ActiveSupport::Concern
-
-  included do
-    before_filter :login_required, only: [:attend]
-    before_filter :_find_event, only: [:attend, :delete, :absent, :maybe]
-    before_filter :_find_group, only: [:attend]
-    before_filter :_member_only, only: [:attend]
-    before_filter :_group_member_only, only: [:absent, :maybe]
-  end
+class AttendeesController < ApplicationController
+  before_filter :login_required, only: [:attend]
+  before_filter :find_group, only: [:attend, :delete, :absent, :maybe]
+  before_filter :find_event, only: [:attend, :delete, :absent, :maybe]
+  before_filter :member_only, only: [:attend]
+  before_filter :group_member_only, only: [:absent, :maybe]
 
   def delete
     if @event.users.destroy(@user)
@@ -40,15 +34,15 @@ module Attendees
   end
 
   private
-  def _find_event #TODO
-    @event = Event.find(params[:id])
+  def find_event #TODO
+    @event = @group.events.find(params[:event_id])
   end
 
-  def _find_group #TODO
-    @group = Group.find(@event.group_id)
+  def find_group #TODO
+    @group = Group.find(params[:group_id])
   end
 
-  def _member_only #TODO
+  def member_only #TODO
     if @group.public? and !@group.member?(@user)
       @group.users << @user
     end
@@ -56,7 +50,7 @@ module Attendees
     only_group_member(@group)
   end
 
-  def _group_member_only
+  def group_member_only
     only_group_member(@event.group)
   end
 end
