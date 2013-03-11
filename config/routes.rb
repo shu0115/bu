@@ -1,106 +1,50 @@
 Bu::Application.routes.draw do
+  resources :groups do
+    get :description, on: :member
 
-  get "users/test_login"
+    resource :posts, only: [:create] do
+      match ":renge" => "posts#index"
+    end
 
-  resources :user_groups
-  resources :comments
+    resources :groups_member_requests, only: [:index] do #管理者の機能
+      member do
+        put :confirm
+        put :reject
+      end
+    end
+
+    resources :members, only: [:index, :show]
+    resource :members, only: [] do #ユーザーの機能
+      put :leave
+      put :join
+      put :request_to_join
+      put :delete_request
+    end
+
+    resources :events, only: [:show, :new, :create, :edit, :update, :destroy] do
+      member do
+        put :cancel
+        put :be_active
+      end
+
+      resource :attendees, only: [] do
+        put :delete
+        put :attend
+        put :absent
+        put :maybe
+      end
+
+      resources :comments, only: [:show, :create, :destroy]
+    end
+  end
 
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/logout' => 'sessions#destroy', :as => :logout
 
-  root :to => 'welcome#index'
+  resources :user_groups, only: [:update, :destroy] #roleの更新
+  resource :my, controller: 'my', only: [:show, :edit, :update]
+  resources :users, only: [:new, :show]
+
   get "about" => "welcome#about"
-
-  get "settings/language/:language" => "settings#language"
-  get "settings/account" => "settings#account"
-
-  get "cron/update"
-  get "my" => "my#index"
-
-  get "users" => "users#index"
-  get "users/edit" => "users#edit"
-  resources :users
-
-  get "events/:id/delete" => "events#delete"
-  get "events/:id/attend" => "events#attend"
-  get "events/:id/absent" => "events#absent"
-  get "events/:id/maybe"  => "events#maybe"
-  get "events/:id/cancel" => "events#cancel"
-  get "events/:id/be_active" => "events#be_active"
-  resources :events
-
-  get "groups/:id/leave" => "groups#leave"
-  get "groups/:id/join" => "groups#join"
-  get "groups/:id/request_to_join" => "groups#request_to_join"
-  get "groups/:id/delete_request" => "groups#delete_request"
-  get "groups/:id/description" => "groups#description"
-  get "groups/:id/__destroy__" => "groups#destroy"
-  get "groups/:id/destroy_confirm" => "groups#destroy_confirm"
-
-  resources :groups do
-    get "posts/:renge" => "groups_posts#index"
-    resources :posts, :controller => 'groups_posts'
-    resources :users, :controller => 'groups_users'
-    get "member_requests" => "groups_member_requests#index"
-    get "member_requests/:id/confirm" => "groups_member_requests#confirm"
-    get "member_requests/:id/reject" => "groups_member_requests#reject"
-    resources :member_requests, :controller => 'groups_member_requests'
-  end
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+  root :to => 'welcome#index'
 end
