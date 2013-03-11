@@ -1,5 +1,5 @@
 %h1
-  = link_to @group.name, @group
+  = link_to @group.name, groups_path(@group)
   =_ 'Listing users'
 
 %p#notice= notice
@@ -25,9 +25,8 @@
         %td
           %img.user_icon{ :src => user.image, :width => '20' }
         %td{:class => @group.manager?(user) ? 'bold' : '' }
-          = link_to user.name, group_users_path + "/#{user.id}"
+          = link_to user.name, group_member_path(group_id: @group.id, id: user.id)
         %td=_ user.status(@group)
-        =# %td= year_month_day user.user_group(@group).created_at
         %td.right= user.attendance_count(@group)
         %td.right= user.absence_count(@group)
         - if is_manager
@@ -48,4 +47,4 @@
   = link_to @group.name, @group
   - if @group.manager?(@user) and !@group.public?
     - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
-    = link_to text, group_member_requests_path
+    = link_to text, group_groups_member_requests_path(@group.id)
