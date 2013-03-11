@@ -1,4 +1,4 @@
-class GroupsPostsController < ApplicationController
+class PostsController < ApplicationController
   before_filter :find_group, only: [:index, :create]
   before_filter :member_only, only: [:create]
 

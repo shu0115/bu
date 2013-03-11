@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe GroupsPostsController do
+describe PostsController do
   describe "GET 'index'" do
     subject { assigns(:posts) }
 
