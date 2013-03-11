@@ -1,6 +1,6 @@
 %h1 Editing event
 
-= render 'form', { event: @event, group: @group }
+= render 'form', { event: @event, group: @group, last: @last }
 
 .bottom_menu
   = link_to 'Back', group_event_url(id: @event.id, group_id: @group.id)

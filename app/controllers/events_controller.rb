@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   before_filter :member_only, only: [:new, :edit, :show]
   before_filter :member_only_for_create, only: [:create]
   before_filter :find_event, only: [:show, :update, :destroy]
+  before_filter :find_last_event, only: [:new, :edit, :create, :update]
   before_filter :find_event_from_event_id, only: [:cancel, :be_active]
   before_filter :event_manager_only, only: [:update, :destroy, :cancel, :be_active]
 
@@ -76,6 +77,10 @@ class EventsController < ApplicationController
 
   def find_event
     @event = @group.events.find(params[:id])
+  end
+
+  def find_last_event
+    @last = @group.events.order("id desc").first
   end
 
   def find_group
