@@ -2,7 +2,7 @@
   - events.each do |event|
     %tr
       %td
-        = link_to image_tag(event.img, :class => :event_icon_small), event
+        = link_to image_tag(event.img, :class => :event_icon_small), group_event_path(group_id: group.id, id: event.id)
       %td= month_day(event.started_at)
       %td== (#{hour_min(event.started_at)})
       - unless controller_name == 'groups'
@@ -11,8 +11,8 @@
           - src = 'rails.png' if src.nil? or src.empty?
           =# image_tag src, :width => 16
         %td
-          = link_to to_short(event.group.name, 9, 2), event.group
-      %td.bold= link_to to_short(event.title, 16, 2), event
+          /= link_to to_short(event.group.name, 9, 2), event.group
+      %td.bold= link_to to_short(event.title, 16, 2), group_event_path(group_id: group.id, id: event.id)
       %td
         - if event.limit?
           == #{event.attendances.count}/#{event.limit}
@@ -31,11 +31,11 @@
         - if event.ended?
           %td.gray=_'ended'
         - elsif atnd
-          %td.update= link_to _('cancel'), event_path(event) + '/delete'
+          %td.update= link_to _(:cancel), delete_group_event_attendees_path(group_id: group.id, event_id: event.id), method: :put
         - elsif event.group.member?(user)
           %td.update.atnd
-            = link_to _('attend'), event_path(event) + '/attend'
-            = link_to _('absent'), event_path(event) + '/absent'
-            = link_to _('maybe'),  event_path(event) + '/maybe'
+            = link_to _(:attend), attend_group_event_attendees_path(group_id: group.id, event_id: event.id), method: :put
+            = link_to _(:absent), absent_group_event_attendees_path(group_id: group.id, event_id: event.id), method: :put
+            = link_to _(:maybe), maybe_group_event_attendees_path(group_id: group.id, event_id: event.id), method: :put
 
 = javascript_tag '$("img.event_icon_small").MyThumbnail({ thumbWidth:40, thumbHeight:28, backgroundColor:"#fff", imageDivClass:"event_icon_small" });'
