@@ -17,9 +17,9 @@
         %td= link_to user.name, user
         %td=_ date_time(user.created_at)
         %td.bold.update
-          = link_to _(:confirm), group_member_requests_path + "/#{req.id}/confirm"
-          = link_to _(:reject), group_member_requests_path + "/#{req.id}/reject"
+          = link_to _(:confirm), confirm_group_groups_member_request_path(id: req.id, group_id: @group.id), method: :put
+          = link_to _(:reject), reject_group_groups_member_request_path(id: req.id, group_id: @group.id), method: :put
 
 .bottom_menu
   = link_to @group.name, @group
-  = link_to _('listing users'), group_users_path
+  = link_to _('listing users'), group_members_path(group_id: @group.id)

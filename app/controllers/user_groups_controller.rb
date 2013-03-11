@@ -4,20 +4,20 @@ class UserGroupsController < ApplicationController
   before_filter :owner_only, only: :destroy
 
   rescue_from Group::NotGroupOwner do
-    redirect_to group_users_url(@group.id), notice: 'Cannot remove owner.'
+    redirect_to group_members_url(@group.id), notice: 'Cannot remove owner.'
   end
 
   def update
     if @user_group.update_attributes(user_group_params)
-      redirect_to group_users_url(@group.id), notice: 'Role was successfully updateed.'
+      redirect_to group_members_url(@group.id), notice: 'Role was successfully updateed.'
     else
-      redirect_to group_users_url(@group.id)
+      redirect_to group_members_url(@group.id)
     end
   end
 
   def destroy
     @user_group.destroy
-    redirect_to group_users_url(@group.id), notice: 'Remeved member.'
+    redirect_to group_members_url(@group.id), notice: 'Remeved member.'
   end
 
   private

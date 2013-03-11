@@ -1,0 +1,26 @@
+= form_for user, url: my_path do |f|
+  -if user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - user.errors.full_messages.each do |msg|
+          %li= msg
+
+  %table
+    %tr
+      %td= f.label :name
+      %td= f.text_field :name, :value => user.name
+    %tr
+      %td= f.label :mail, :Email
+      %td= f.text_field :mail, :value => user.mail
+    // TODO DBに格納するように直す
+    %tr
+      %td= f.label :locale, :Locale
+      %td
+        %span= f.radio_button :locale, "english"
+        %label{for: :user_locale_english} English
+        %span= f.radio_button :locale, "japanese"
+        %label{for: :user_locale_japanese} Japanese
+  %tr
+    %td.actions
+      = f.submit 'Save'

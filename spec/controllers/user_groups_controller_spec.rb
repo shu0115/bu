@@ -22,7 +22,7 @@ describe UserGroupsController do
       end
       it {
         put :update, { id: target_user_groups_id, user_group: edited_user_group_params }
-        response.should redirect_to(group_users_url(group_id: group.id))
+        response.should redirect_to(group_members_url(group_id: group.id))
       }
     end
 
@@ -51,7 +51,7 @@ describe UserGroupsController do
     context "with invalid params" do
       let(:operator) { owner }
       before { put :update, {id: target_user_groups_id, user_group: {}} }
-      it { response.should redirect_to(group_users_url(group_id: group.id)) }
+      it { response.should redirect_to(group_members_url(group_id: group.id)) }
     end
   end
 

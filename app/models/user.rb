@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   has_many :member_requests, dependent: :destroy
   has_many :requested_groups, :source => :group, :through => :member_requests
 
+  attr_accessor :locale
+
   def attendance_count(group)
     joined_time = user_groups.find_by_group_id(group.id).created_at
     user_events.joins(:event).where(:state => "attendance", "events.group_id" => group.id, "events.ended" => true, "events.canceled" => false).where("events.started_at > ?", joined_time).count
