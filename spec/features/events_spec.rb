@@ -8,7 +8,7 @@ describe "Events" do
     let(:title){'event title 1'}
     include_context 'visit_group_page'
     before do
-      visit new_event_path
+      visit new_group_event_path(group_id: group.id)
       fill_in 'event[title]', with: title
       fill_in 'event[limit]', with: 1
       click_on 'Save'
@@ -22,7 +22,7 @@ describe "Events" do
     include_context 'visit_event_page'
 
     before do
-      visit edit_event_path(event)
+      visit edit_group_event_path(group_id: group.id, id: event.id)
       fill_in 'event[title]', with: title
       click_on 'Save'
     end
