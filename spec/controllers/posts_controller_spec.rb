@@ -80,7 +80,7 @@ describe PostsController do
       end
 
       it { should be_redirect }
-      it { should redirect_to(group_posts_url(anchor: assigns(:post).idx)) }
+      it { should redirect_to(index_group_posts_url(anchor: assigns(:post).idx, renge: "l10")) }
     end
     
     context '書き込み内容に記載がないとき' do
