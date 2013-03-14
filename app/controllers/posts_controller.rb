@@ -35,7 +35,7 @@ class PostsController < ApplicationController
     end
 
     if @post.save
-      redirect_to group_posts_url(anchor: @post.idx), notice: 'Post was successfully created.'
+      redirect_to index_group_posts_url(renge: "l10", anchor: @post.idx), notice: 'Post was successfully created.'
     else
       render :new
     end

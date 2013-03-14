@@ -35,11 +35,11 @@
         %th= user.user_group(@group).role
         - if is_manager
           %td
-            = form_for user.user_group(@group) do |f|
+            =form_for user.user_group(@group), {url: group_member_path(group_id: @group.id, id: user.user_group(@group).id)} do |f|
               %span.field
-                = f.text_field :role, :size => '16'
+                =f.text_field :role, :size => '16'
                 %span.actions
-                = f.submit _'Set role'
+                  =f.submit _'Set role'
           %td
             - unless @group.owner?(user)
               = link_to _(:remove), user.user_group(@group), :confirm => 'Are you sure?', :method => :delete
