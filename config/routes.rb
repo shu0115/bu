@@ -6,13 +6,6 @@ Bu::Application.routes.draw do
       get ":renge" => "posts#index", as: "index"
     end
 
-    resources :groups_member_requests, only: [:index] do #管理者の機能
-      member do
-        put :confirm
-        put :reject
-      end
-    end
-
     resource :members, only: [] do #ユーザーの機能
       put :leave
       put :join
@@ -21,6 +14,13 @@ Bu::Application.routes.draw do
     end
 
     resources :members, only: [:index, :show, :update, :destroy] #ロールの設定など
+
+    resources :groups_member_requests, only: [:index] do #管理者の機能
+      member do
+        put :confirm
+        put :reject
+      end
+    end
 
     resources :events, only: [:show, :new, :create, :edit, :update, :destroy] do
       member do

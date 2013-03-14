@@ -14,7 +14,7 @@
           - src = group.image_src
           - src = 'twitter-icon.png' if src.nil? or src.empty?
           = image_tag src, :class => :group_icon_small
-        %td.nowrap= link_to to_short(group.name, 16), group
+        %td.nowrap= link_to to_short(group.name, 16), group_path(group.id)
         - if current_user
           %td.nowrap=_ current_user.status(group)
           %td.nowrap

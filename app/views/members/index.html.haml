@@ -44,7 +44,7 @@
             - unless @group.owner?(user)
               = link_to _(:remove), user.user_group(@group), :confirm => 'Are you sure?', :method => :delete
 .bottom_menu
-  = link_to @group.name, @group
+  = link_to @group.name, group_path(@group.id)
   - if @group.manager?(@user) and !@group.public?
     - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
     = link_to text, group_groups_member_requests_path(@group.id)

@@ -1,7 +1,6 @@
 %h1
-  - group = @event.group
-  - unless group.hidden?
-    = link_to group.name, group
+  - unless @group.hidden?
+    = link_to @group.name, group_path(@group.id)
   = @event.title
 
 %p#notice= notice
@@ -55,7 +54,7 @@
   \:
   - if @user.nil?
     =_ :unknown
-    - if group.public?
+    - if @group.public?
       %span.update.atnd
         %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
     - else
@@ -63,7 +62,7 @@
   - elsif atnd = @user.atnd(@event)
     %span.atnd== #{_ atnd.state.capitalize}
     %span.update= link_to _(:cancel), delete_group_event_attendees_path(event_id: @event.id), method: :put
-  - elsif group.member?(@user)
+  - elsif @group.member?(@user)
     =_ :unknown
     %span.update.atnd
       %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
@@ -71,12 +70,12 @@
       %span.maybe= link_to _(:maybe), maybe_group_event_attendees_path(event_id: @event.id), method: :put
   - else
     =_ :unknown
-    - if group.public?
+    - if @group.public?
       %span.update.atnd
         %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
     - else
       You are not a member of
-      = link_to group.name, group
+      = link_to @group.name, group_path(@group.id)
 
 %hr
 
@@ -115,7 +114,7 @@
         = user_name(user)
 
 %h2=_ 'Comments and Logs'
-- if @user and group.member?(@user)
+- if @user and @group.member?(@user)
   = render 'comments/form', comment: @comment, group: @group, event: @event
 
 %table.comments
@@ -141,5 +140,5 @@
     = link_to _(:Destroy), group_event_path(group_id: @group.id, id: @event.id), :confirm => 'Destroy event: Are you sure?', :method => :delete
 
 .bottom_menu
-  - unless group.hidden?
-    = link_to group.name, group
+  - unless @group.hidden?
+    = link_to @group.name, group_path(@group.id)
