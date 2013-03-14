@@ -39,6 +39,7 @@ Bu::Application.routes.draw do
     end
   end
 
+  resources :sessions, only: [:new]
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/logout' => 'sessions#destroy', :as => :logout
 

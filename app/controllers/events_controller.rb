@@ -99,9 +99,9 @@ class EventsController < ApplicationController
     only_event_manager(@event)
   end
 
-  def current_user
-    @user
-  end
+  # def current_user
+  #   @user
+  # end
 
   def find_event_from_event_id #TODO
     @event = Event.find(params[:id])

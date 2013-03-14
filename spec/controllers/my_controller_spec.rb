@@ -9,12 +9,13 @@ describe MyController do
         login_as(you)
         get :edit
       end
-      it { assigns(:user).should eq you }
+      it { response.should render_template("edit") }
     end
 
     context 'ログインしてない場合' do
       before { bypass_rescue }
-      it { expect { get :edit }.to raise_error(User::UnAuthorized) }
+      #it { expect { get :edit }.to raise_error(User::UnAuthorized) }
+      it { expect { get :edit }.to raise_error(Authentication::Unauthenticated) }
     end
   end
 
@@ -44,7 +45,7 @@ describe MyController do
 
     context 'ログインしてない場合' do
       before { bypass_rescue }
-      it { expect { get :edit }.to raise_error(User::UnAuthorized) }
+      it { expect { get :edit }.to raise_error(Authentication::Unauthenticated) }
     end
   end
 end
