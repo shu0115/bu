@@ -18,7 +18,6 @@ $ rails server
 # 情報
 
 - [Preview Site](http://bukt-preview.herokuapp.com)
-- [Latest Coverage](http://bukt-coverage.herokuapp.com/#_AllFiles)
 - [Rails Best Practices](http://railsbp.com/repositories/304-1syo-bu)
 - [Build Status](https://travis-ci.org/1syo/bu)
 - [Code Climate](https://codeclimate.com/github/1syo/bu)
