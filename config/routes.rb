@@ -19,7 +19,8 @@ Bu::Application.routes.draw do
       put :request_to_join
       put :delete_request
     end
-    resources :members, only: [:index, :show, :update, :destroy]
+
+    resources :members, only: [:index, :show, :update, :destroy] #ロールの設定など
 
     resources :events, only: [:show, :new, :create, :edit, :update, :destroy] do
       member do
@@ -41,7 +42,6 @@ Bu::Application.routes.draw do
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/logout' => 'sessions#destroy', :as => :logout
 
-  resources :user_groups, only: [:update, :destroy] #roleの更新
   resource :my, controller: 'my', only: [:show, :edit, :update]
   resources :users, only: [:new, :show]
 
