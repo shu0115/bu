@@ -3,7 +3,7 @@ Bu::Application.routes.draw do
     get :description, on: :member
 
     resource :posts, only: [:create] do
-      match ":renge" => "posts#index"
+      get ":renge" => "posts#index", as: "index"
     end
 
     resources :groups_member_requests, only: [:index] do #管理者の機能
@@ -13,13 +13,13 @@ Bu::Application.routes.draw do
       end
     end
 
-    resources :members, only: [:index, :show]
     resource :members, only: [] do #ユーザーの機能
       put :leave
       put :join
       put :request_to_join
       put :delete_request
     end
+    resources :members, only: [:index, :show, :update, :destroy]
 
     resources :events, only: [:show, :new, :create, :edit, :update, :destroy] do
       member do
