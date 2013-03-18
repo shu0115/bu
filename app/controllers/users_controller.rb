@@ -5,6 +5,6 @@ class UsersController < ApplicationController
     @current_user = User.find(params[:id])
   end
 
-  def new
-  end
+  # def new
+  # end
 end

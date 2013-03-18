@@ -40,8 +40,9 @@ Bu::Application.routes.draw do
     end
   end
 
-  match '/auth/:provider/callback', :to => 'sessions#callback'
+  match '/auth/:provider/callback', :to => 'sessions#create'
   match '/logout' => 'sessions#destroy', :as => :logout
+  match '/login' => 'sessions#new', :as => :login
 
   resource :my, controller: 'my', only: [:show, :edit, :update]
   resources :users, only: [:new, :show]
