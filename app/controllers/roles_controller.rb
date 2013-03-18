@@ -5,11 +5,11 @@ class RolesController < ApplicationController
   before_filter :manager_only, only: [:update, :destroy]
   before_filter :owner_only, only: :destroy
 
-  def index
+  def index #TODO: members#indexに移動する?
     @events = @group.events
   end
 
-  def show
+  def show #TODO: members#showに移動する?
     @current_user = @group.users.find(params[:id])
     @user_group = @current_user.user_group(@group)
 
