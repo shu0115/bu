@@ -1,7 +1,5 @@
 Bu::Application.routes.draw do
 
-  get "memberships/index"
-
   resources :groups do
     get :description, on: :member
 
