@@ -105,7 +105,6 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hashie (1.2.0)
-    headless (1.0.1)
     heroku-api (0.3.8)
       excon (~> 0.16.10)
     hike (1.2.1)
@@ -273,7 +272,6 @@ DEPENDENCIES
   factory_girl_rails
   forgery
   haml-rails
-  headless
   heroq!
   hikidoc
   html5_validators
