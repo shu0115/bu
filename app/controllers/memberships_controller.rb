@@ -1,4 +1,4 @@
-class GroupsMemberRequestsController < ApplicationController
+class MembershipsController < ApplicationController
   before_filter { # for secret group
     @group = Group.find(params[:group_id])
     only_group_manager(@group)

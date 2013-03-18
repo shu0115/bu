@@ -1,4 +1,7 @@
 Bu::Application.routes.draw do
+
+  get "memberships/index"
+
   resources :groups do
     get :description, on: :member
 
@@ -6,21 +9,21 @@ Bu::Application.routes.draw do
       get ":renge" => "posts#index", as: "index"
     end
 
-    resource :members, only: [] do #ユーザーの機能
+    resource :members, only: [] do #ユーザーが入部する
       put :leave
       put :join
       put :request_to_join
       put :delete_request
     end
 
-    resources :members, only: [:index, :show, :update, :destroy] #ロールの設定など
-
-    resources :groups_member_requests, only: [:index] do #管理者の機能
+    resources :memberships, only: [:index, :destroy] do #管理者が制限付きのグループへの参加を許可する
       member do
         put :confirm
         put :reject
       end
     end
+
+    resources :roles, only: [:index, :show, :update, :destroy] #管理者がユーザーのロールを設定する
 
     resources :events, only: [:show, :new, :create, :edit, :update, :destroy] do
       member do

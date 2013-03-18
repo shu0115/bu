@@ -25,7 +25,7 @@
         %td
           %img.user_icon{ :src => user.image, :width => '20' }
         %td{:class => @group.manager?(user) ? 'bold' : '' }
-          = link_to user.name, group_member_path(group_id: @group.id, id: user.id)
+          = link_to user.name, group_role_path(group_id: @group.id, id: user.id)
         %td=_ user.status(@group)
         %td.right= user.attendance_count(@group)
         %td.right= user.absence_count(@group)
@@ -35,14 +35,14 @@
         %th= user.user_group(@group).role
         - if is_manager
           %td
-            =form_for user.user_group(@group), {url: group_member_path(group_id: @group.id, id: user.user_group(@group).id)} do |f|
+            =form_for user.user_group(@group), {url: group_role_path(group_id: @group.id, id: user.user_group(@group).id)} do |f|
               %span.field
                 =f.text_field :role, :size => '16'
                 %span.actions
                   =f.submit _'Set role'
           %td
             - unless @group.owner?(user)
-              = link_to _(:remove), user.user_group(@group), :confirm => 'Are you sure?', :method => :delete
+              = link_to _(:remove), group_role_path(id: user.user_group(@group), group_id: @group.id), :confirm => 'Are you sure?', :method => :delete
 .bottom_menu
   = link_to @group.name, group_path(@group.id)
   - if @group.manager?(@user) and !@group.public?

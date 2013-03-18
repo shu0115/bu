@@ -14,7 +14,7 @@
       %td
         = year_month_day event.started_at
       %td
-        %b= link_to to_short(event.title, 12), groups_event_path(group_id: @group.id, id: event.id)
+        %b= link_to to_short(event.title, 12), group_event_path(group_id: @group.id, id: event.id)
       %td.atnd
         - if atnd
           =_ atnd.state.capitalize
@@ -24,4 +24,4 @@
 
 .bottom_menu
   = link_to @group.name, group_path(@group)
-  = link_to _('listing users'), group_users_path
+  = link_to _('listing users'), group_roles_path

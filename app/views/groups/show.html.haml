@@ -14,7 +14,7 @@
         = @group.summary
         - if !is_secret and @group.description? and !params[:show_description]
           &#187;
-          = link_to 'もっと詳しく', description_group_path(group.id)
+          = link_to 'もっと詳しく', description_group_path(@group.id)
       .description
         - if !is_secret and params[:show_description]
           %p
@@ -95,10 +95,10 @@
                 - if atnd
                   = { 'at' => '+', 'ab' => '-', 'ma' => '?' }[atnd.state[0..1]]
       %p
-        = link_to _('listing users'), group_members_path(group_id: @group.id)
+        = link_to _('listing users'), group_roles_path(group_id: @group.id)
         - if @group.manager?(@user) and !@group.public?
           - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
-          = link_to text, group_groups_member_requests_path(group_id: @group.id)
+          = link_to text, group_memberships_path(group_id: @group.id)
 
   .bottom_menu
     - if is_member and !@group.owner?(@user) and !@group.hidden?
