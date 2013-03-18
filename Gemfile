@@ -42,7 +42,7 @@ group :test, :development do
   gem 'forgery'
   gem 'pry-rails'
   gem 'pry-nav'
-  gem 'pry-coolline'
+#  gem 'pry-coolline'  # 2013/03/18 bundle installエラー：「An error occurred while installing io-console (0.3), and Bundler cannot continue.」
   gem 'capybara'
   gem 'launchy'
   gem 'headless'
@@ -50,4 +50,18 @@ group :test, :development do
   gem 'simplecov', require: false
   gem 'heroq', :git => 'git://github.com/1syo/heroq.git', :tag => 'v0.0.1'
   #gem 'rails-erd'
+
+  gem "sextant"  # /rails/routes
+  gem "better_errors"
+  gem "tapp"
 end
+
+# Utility
+gem "action_args"
+gem 'html5_validators'
+
+# Translation
+gem "i18n_generators"
+
+# Exception Error Notice
+gem "exception_notification"
