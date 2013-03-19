@@ -48,7 +48,7 @@ describe "Groups" do
   describe "DELETE /groups/1" do
     let!(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
     before do
-      visit groups_path
+      visit group_path(group)
       click_link 'Destroy'
     end
     it { page.should have_content('Group was successfully deleted.') }

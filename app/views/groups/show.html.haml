@@ -1,6 +1,6 @@
 %p#notice= notice
 
-- is_secret = @group.secret? && !@group.member?(@user)
+- is_secret = @group.secret? && !@group.member?(current_user)
 
 %table
   %tr
@@ -30,11 +30,11 @@
           == #{_ :owner}:
           %b= link_to @group.owner.name, user_path(@group.owner.id)
 
-- is_member = @group.member?(@user)
+- is_member = @group.member?(current_user)
 - if !is_member and !@group.hidden?
   - if @group.public?
     %p.update= link_to _('join this group'), join_group_members_path(group_id: @group.id), method: :put
-  - elsif @group.requesting_user?(@user)
+  - elsif @group.requesting_user?(current_user)
     %p.update= link_to _('cancel request'), delete_request_group_members_path(group_id: @group.id), method: :put
   - else
     %p.update= link_to _('ask to join this group'), request_to_join_group_members_path(group_id: @group.id), method: :put
@@ -42,7 +42,7 @@
 - unless is_secret
   .events
     %h2=_ :Events
-    = render 'events', { group: @group, events: @events, user: @user }
+    = render 'events', { group: @group, events: @events, user: current_user }
   .events_new
     - if is_member
       %p= link_to _('new event'), new_group_event_path(group_id: @group)
@@ -96,14 +96,14 @@
                   = { 'at' => '+', 'ab' => '-', 'ma' => '?' }[atnd.state[0..1]]
       %p
         = link_to _('listing users'), group_roles_path(group_id: @group.id)
-        - if @group.manager?(@user) and !@group.public?
+        - if @group.manager?(current_user) and !@group.public?
           - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
           = link_to text, group_memberships_path(group_id: @group.id)
 
   .bottom_menu
-    - if is_member and !@group.owner?(@user) and !@group.hidden?
+    - if is_member and !@group.owner?(current_user) and !@group.hidden?
       %p.update= link_to _('leave this group'), leave_group_members_path(group_id: @group.id) ,method: :put
-    - if @user and @group.owner?(@user)
+    - if current_user and @group.owner?(current_user)
       %h2=_ 'Admin menu'
       = link_to 'Edit', edit_group_path(@group)
       - if @group.users.count <= 1
