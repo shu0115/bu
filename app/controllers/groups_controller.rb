@@ -1,8 +1,9 @@
 # coding: utf-8
 class GroupsController < ApplicationController
+  skip_before_filter :require_current_user, only: [:index, :description, :show]
   before_filter :admin_only, only: :index
   before_filter :find_group, only: [:show, :edit, :update, :destroy]
-  before_filter :login_required, only: [:new, :create] #TODO:権限周りはまとめて整理する
+  #before_filter :login_required, only: [:new, :create] #TODO:権限周りはまとめて整理する
   before_filter :owner_only, only: [:edit, :update, :destroy] #TODO:権限周りはまとめて整理する
 
   def index
@@ -23,9 +24,10 @@ class GroupsController < ApplicationController
     set_subtitle
   end
 
-  def create
-    @group = Group.new(params[:group])
-    @group.owner = @user #TODO: super classのインスタンンス変数を参照しない
+  def create(group)
+    @group = Group.new(group) do |model|
+      model.owner = current_user
+    end
 
     if @group.save
       redirect_to group_url(@group), notice: 'Group was successfully created.'
