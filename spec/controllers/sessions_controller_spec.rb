@@ -26,12 +26,12 @@ describe SessionsController do
     let(:you) { FactoryGirl.create(:user) }
 
     before do
-      request.session[:user_id] = you.id
+      controller.login! you
       get :destroy
     end
 
     it { should redirect_to(root_path) }
-    it { request.session[:user_id].should be_nil }
+    it { controller.current_user_id.should be_nil }
   end
 
 end
