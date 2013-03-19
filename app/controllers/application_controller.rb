@@ -18,16 +18,13 @@ class ApplicationController < ActionController::Base
     raise Authentication::Unauthenticated unless logged_in?
   end
 
-  rescue_from User::NotAdministrator, :with => -> { redirect_to '/' }
-  #rescue_from User::UnAuthorized, :with => -> { redirect_to login_url }
+  rescue_from User::NotAdministrator, :with => -> { redirect_to root_url }
   rescue_from Group::NotGroupOwner, :with => -> { render :text => 'not group owner' }
   rescue_from Group::NotGroupManager, :with => -> { render :text => 'not group manager' }
   rescue_from Group::NotGroupMember, :with => -> { render :text => 'not group member' }
   rescue_from Event::NotEventManager, :with => -> { render :text => 'not event manager' }
 
   private
-
-  #before_filter :user
   before_filter { @subtitle = ': beta' }
 
   before_filter {
@@ -36,45 +33,26 @@ class ApplicationController < ActionController::Base
     end
   }
 
-  # def user
-  #   @user ||= User.find(session[:user_id]) if session[:user_id]
-  # rescue ActiveRecord::RecordNotFound
-  #   session[:user_id] = nil
-  # end
-
-  # def login_required
-  #   if session[:user_id]
-  #     @user ||= User.find(session[:user_id])
-  #   else
-  #     session[:redirect_path] = request.path
-  #     raise(User::UnAuthorized)
-  #   end
-  # end
-
-  def login_required
-    require_current_user
-  end
-
   def only_group_owner(group = nil)
-    login_required
+    require_current_user
     group ||= Group.find(params[:id])
     group.owner?(current_user) or raise(Group::NotGroupOwner)
   end
 
   def only_group_manager(group = nil)
-    login_required
+    require_current_user
     group ||= Group.find(params[:id])
     group.manager?(current_user) or raise(Group::NotGroupManager)
   end
 
   def only_group_member(group = nil)
-    login_required
+    require_current_user
     group ||= Group.find(params[:id])
     group.member?(current_user) or raise(Group::NotGroupMember)
   end
 
   def only_event_manager(event)
-    login_required
+    require_current_user
     event.manager?(current_user) or raise(Event::NotEventManager)
   end
 end
