@@ -18,14 +18,12 @@ shared_context "twitter_login" do
 end
 
 shared_context "visit_event_page" do
-  include_context 'visit_group_page'
-  let(:event) { FactoryGirl.create(:event, group: group) }
-  before { visit event_path(event) }
+  let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
+  let(:event) { FactoryGirl.create(:event, group: group, owner_user_id: you.id) }
+  before { visit group_event_path(group_id: group.id, id: event.id) }
 end
 
 shared_context "visit_group_page" do
   let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
-  # session[:group_id] に @group.idを代入するため
-  # GroupsController#showを参照のこと
   before { visit group_path(group) }
 end

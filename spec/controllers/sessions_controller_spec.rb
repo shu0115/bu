@@ -11,13 +11,13 @@ describe SessionsController do
       let(:redirect_path) { root_path }
       before do
         request.session[:redirect_path] = redirect_path
-        get :callback, provider: :twitter
+        post :create, provider: :twitter
       end
       it { should redirect_to(redirect_path) }
     end
 
     context 'redirect_pathが設定されていない場合' do
-      before { get :callback, provider: :twitter }
+      before { post :create, provider: :twitter }
       it { should redirect_to(my_path) }
     end
   end

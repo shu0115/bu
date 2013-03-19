@@ -1,6 +1,5 @@
 # coding: utf-8
 class GroupsController < ApplicationController
-  include Members
   before_filter :admin_only, only: :index
   before_filter :find_group, only: [:show, :edit, :update, :destroy]
   before_filter :login_required, only: [:new, :create] #TODO:権限周りはまとめて整理する
@@ -12,7 +11,6 @@ class GroupsController < ApplicationController
 
   def show
     @events = @group.events.limit(7)
-    session[:group_id] = @group.id #TODO: ネステッドリソースにする
     set_subtitle
   end
 

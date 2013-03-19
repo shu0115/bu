@@ -1,0 +1,12 @@
+%h1=_'My page'
+
+%p#notice= notice
+
+%h2=_'Update'
+%p @todo
+
+%h2=_'Events'
+= render 'groups/events', { group: @groups.first, events: @events, user: current_user }
+
+%h2=_'Your Groups'
+= render 'groups/groups', { groups: @groups, current_user: current_user }

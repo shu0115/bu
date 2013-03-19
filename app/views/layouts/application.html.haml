@@ -15,23 +15,19 @@
         %table{:width => '100%'}
           %tr
             %td
-              = link_to 'Home', '/'
+              = link_to 'Home', root_path
               - if @user
-                = link_to 'My page', '/my'
-              = link_to 'About', '/about'
+                = link_to 'My page', my_path
+              = link_to 'About', about_path
             %td.right
               - if @user
-                = link_to 'Settings', '/users/edit'
+                = link_to 'Settings', edit_my_path
                 = link_to "Sign out(#{@user.name})", logout_path
               - else
                 = link_to 'Sign in with twitter', '/auth/twitter'
-              - if session[:language].nil? or session[:language] == 'japanese'
-                = link_to 'English', '/settings/language/english'
-              - else
-                = link_to 'Japanese', '/settings/language/japanese'
       - if @user and !@user.mail?
         .input_mail
-          %p.bold= link_to 'Please input your mail address', '/users/edit'
+          %p.bold= link_to 'Please input your mail address', edit_my_path
       %div{:class => controller_name}
         = yield
       .footer

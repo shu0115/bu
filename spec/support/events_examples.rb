@@ -2,10 +2,6 @@
 shared_context 'group exists' do
   let(:you) { FactoryGirl.create(:user) }
   let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
-
-  before do
-    @request.session[:group_id] = group.id
-  end
 end
 
 shared_examples 'member of group' do

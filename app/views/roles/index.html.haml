@@ -1,0 +1,50 @@
+%h1
+  = link_to @group.name, groups_path(@group)
+  =_ 'Listing users'
+
+%p#notice= notice
+
+.users
+  - is_manager = @user && @group.manager?(@user)
+  %table
+    %tr
+      %th
+      %th=_ :name
+      %th=_ :state
+      =# %th 入部日
+      %th 出席
+      %th 欠席
+      - if is_manager
+        %th=_ :mail
+      %th=_ :role
+      - if is_manager
+        %th=_ 'set role'
+        %th=_ 'admin menu'
+    - @group.users.each do |user|
+      %tr
+        %td
+          %img.user_icon{ :src => user.image, :width => '20' }
+        %td{:class => @group.manager?(user) ? 'bold' : '' }
+          = link_to user.name, group_role_path(group_id: @group.id, id: user.id)
+        %td=_ user.status(@group)
+        %td.right= user.attendance_count(@group)
+        %td.right= user.absence_count(@group)
+        - if is_manager
+          %td.center
+            = user.mail? ? 'ok' : ''
+        %th= user.user_group(@group).role
+        - if is_manager
+          %td
+            =form_for user.user_group(@group), {url: group_role_path(group_id: @group.id, id: user.user_group(@group).id)} do |f|
+              %span.field
+                =f.text_field :role, :size => '16'
+                %span.actions
+                  =f.submit _'Set role'
+          %td
+            - unless @group.owner?(user)
+              = link_to _(:remove), group_role_path(id: user.user_group(@group), group_id: @group.id), :confirm => 'Are you sure?', :method => :delete
+.bottom_menu
+  = link_to @group.name, group_path(@group.id)
+  - if @group.manager?(@user) and !@group.public?
+    - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
+    = link_to text, group_groups_member_requests_path(@group.id)

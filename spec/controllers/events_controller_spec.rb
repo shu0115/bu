@@ -7,14 +7,14 @@ describe EventsController do
 
     context 'グループがsecretではない時' do
       include_examples 'member of group' do
-        let(:action) { get :show, id: event.to_param }
+        let(:action) { get :show, id: event.to_param, group_id: group.to_param }
       end
       it { assigns(:comment).event_id.should eq event.id }
     end
 
     context 'グループがsecretの時' do
       include_examples 'member of secret group' do
-        let(:action) { get :show, id: event.to_param }
+        let(:action) { get :show, id: event.to_param , group_id: group.to_param}
       end
     end
   end
@@ -22,14 +22,14 @@ describe EventsController do
   describe "GET 'new'" do
     context 'グループがsecretではない時' do
       include_examples 'member of group' do
-        let(:action) { get :new }
+        let(:action) { get :new, group_id: group.to_param }
       end
       it { assigns(:event).group_id.should eq group.id }
     end
 
     context 'グループがsecretの時' do
       include_examples 'member of secret group' do
-        let(:action) { get :new }
+        let(:action) { get :new, group_id: group.to_param }
       end
     end
   end
@@ -39,14 +39,14 @@ describe EventsController do
 
     context 'グループがsecretではない時' do
       include_examples 'member of group' do
-        let(:action) { get :edit, id: event.to_param }
+        let(:action) { get :edit, id: event.to_param, group_id: group.to_param }
       end
       it { assigns(:event).group_id.should eq group.id }
     end
 
     context 'グループがsecretの時' do
       include_examples 'member of secret group' do
-        let(:action) { get :edit, id: event.to_param }
+        let(:action) { get :edit, id: event.to_param, group_id: group.to_param }
       end
     end
   end
@@ -57,7 +57,6 @@ describe EventsController do
     let(:event) { FactoryGirl.attributes_for(:event) }
 
     before do
-      @request.session[:group_id] = group.id
       @request.session[:user_id] = you.id
     end
 
@@ -70,7 +69,7 @@ describe EventsController do
 
       it 'NotGroupMemberになること' do
         expect { 
-          post :create, {event: event}
+          post :create, {event: event, group_id: group.to_param}
         }.to raise_error(Group::NotGroupMember)
       end
     end
@@ -84,14 +83,14 @@ describe EventsController do
       context '有効なパラメータが送信された時' do
         before do
           Event.any_instance.stub(:save) { true }
-          post :create, {event: event}
+          post :create, {event: event, group_id: group.to_param}
         end
-        it { should redirect_to events_url }
+        pending { should redirect_to group_event_url }
       end
       context '無効なパラメータが送信された時' do
         before do
           Event.any_instance.stub(:save) { false }
-          post :create, {event: event}
+          post :create, {event: event, group_id: group.to_param}
         end
         it { should render_template :new }
       end
@@ -105,7 +104,6 @@ describe EventsController do
 
     before do
       @request.session[:user_id] = you.id
-      @request.session[:group_id] = group.to_param
     end
 
     context 'あなたがイベント管理者ではない場合' do
@@ -116,7 +114,7 @@ describe EventsController do
 
       it 'NotEventManagerになること' do
         expect { 
-          put :update, event: {}, id: event.to_param
+          put :update, event: {}, id: event.to_param, group_id: group.to_param
         }.to raise_error(Event::NotEventManager)
       end
     end
@@ -127,15 +125,15 @@ describe EventsController do
       context '有効なパラメータが送信された時' do
         before do
           Event.any_instance.stub(:update_attributes) { true }
-          put :update, event: event, id: event.to_param
+          put :update, event: event, id: event.to_param, group_id: group.to_param
         end
-        it { should redirect_to event_url(event.to_param) }
+        it { should redirect_to group_event_url(id: event.to_param, group_id: group.to_param) }
       end
 
       context '無効なパラメータが送信された時' do
         before do
           Event.any_instance.stub(:update_attributes) { false }
-          put :update, event: event, id: event.to_param
+          put :update, event: event, id: event.to_param, group_id: group.to_param
         end
         it { should render_template :edit }
       end
@@ -149,7 +147,6 @@ describe EventsController do
 
     before do
       @request.session[:user_id] = you.id
-      @request.session[:group_id] = group.to_param
     end
 
     context 'あなたがイベントマネージャーの場合' do
@@ -159,7 +156,7 @@ describe EventsController do
 
       it '削除できる' do 
         expect {
-          delete :destroy, id: event.to_param
+          delete :destroy, id: event.to_param, group_id: group.to_param
         }.to change(Event, :count).by(-1)
       end
     end
@@ -172,7 +169,7 @@ describe EventsController do
 
       it 'NotEventManagerになること' do
         expect { 
-          delete :destroy, id: event.to_param
+          delete :destroy, id: event.to_param, group_id: group.to_param
         }.to raise_error(Event::NotEventManager)
       end
     end
@@ -186,7 +183,7 @@ describe EventsController do
     context 'あなたがeventマネージャーの場合' do
       before do
         login_as(you)
-        get :cancel, id: event.to_param
+        get :cancel, id: event.to_param, group_id: group.to_param
       end
       it { assigns(:event).canceled.should be_true }
     end
@@ -197,7 +194,7 @@ describe EventsController do
         bypass_rescue
         login_as(other)
       end
-      it { expect { get :cancel, id: event.to_param }.to raise_error(Event::NotEventManager) }
+      it { expect { get :cancel, id: event.to_param, group_id: group.to_param }.to raise_error(Event::NotEventManager) }
     end
   end
 
@@ -209,7 +206,7 @@ describe EventsController do
     context 'あなたがeventマネージャーの場合' do
       before do
         login_as(you)
-        get :be_active, id: event.to_param
+        get :be_active, id: event.to_param, group_id: group.to_param
       end
       it { assigns(:event).canceled.should be_false }
     end
@@ -220,7 +217,7 @@ describe EventsController do
         bypass_rescue
         login_as(other)
       end
-      it { expect { get :be_active, id: event.to_param }.to raise_error(Event::NotEventManager) }
+      it { expect { get :be_active, id: event.to_param, group_id: group.to_param }.to raise_error(Event::NotEventManager) }
     end
   end
 end
