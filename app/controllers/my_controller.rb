@@ -1,7 +1,6 @@
 # coding: utf-8
 class MyController < ApplicationController
-  before_filter :login_required
-  helper_method :current_user
+  before_filter :find_user
 
   def show
     @groups = @user.groups
@@ -10,13 +9,14 @@ class MyController < ApplicationController
 
   # GET /users/edit
   def edit
-    current_user.locale = session[:language]
+    @user.locale = session[:language] #TODO 仕様を決める
   end
 
   # PUT /users/1
-  def update
-    if @user.update_attributes(params[:user])
+  def update(user)
+    if @user.update_attributes(user)
       session[:language] = @user.locale #TODO 仕様を決める
+      current_user.reload
       redirect_to my_url, notice: 'User was successfully updated.'
     else
       render :edit
@@ -24,7 +24,7 @@ class MyController < ApplicationController
   end
 
   private
-  def current_user #TODO 認証関連の再設計時にリファクタリングすること
-    @user
+  def find_user
+    @user = User.find(current_user_id)
   end
 end

@@ -6,7 +6,7 @@
 %p @todo
 
 %h2=_'Events'
-= render 'groups/events', { group: @groups.first, events: @events, user: current_user }
+= render 'groups/events', { group: @groups.first, events: @events, user: @user }
 
 %h2=_'Your Groups'
-= render 'groups/groups', { groups: @groups, current_user: current_user }
+= render 'groups/groups', { groups: @groups, current_user: @user }
