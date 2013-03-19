@@ -38,6 +38,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.3)
     arel (3.0.2)
+    authentication (0.0.1)
     awesome_print (1.1.0)
     better_errors (0.7.2)
       coderay (>= 1.0.0)
@@ -244,6 +245,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_args
+  authentication
   better_errors
   capybara
   coffee-rails (~> 3.2.1)

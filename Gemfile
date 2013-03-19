@@ -24,9 +24,11 @@ gem 'configatron'
 gem 'jquery-rails'
 gem 'haml-rails'
 gem 'execjs'
+gem 'hikidoc'
+
 gem 'omniauth'
 gem 'omniauth-twitter'
-gem 'hikidoc'
+gem 'authentication'
 
 group hg(:production) do
   gem 'sqlite3'
