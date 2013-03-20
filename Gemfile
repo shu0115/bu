@@ -7,7 +7,7 @@ def hg(g)
   (ENV['HOME'].gsub('/','') == 'app' ? :test : g)
 end
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 group :preview do
   gem 'pg'
