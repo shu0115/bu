@@ -52,6 +52,7 @@ group :test, :development do
   gem "sextant"  # /rails/routes
   gem "better_errors"
   gem "tapp"
+  gem 'coveralls', require: false
 end
 
 # Utility
