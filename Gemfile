@@ -52,6 +52,7 @@ group :test, :development do
   gem "sextant"  # /rails/routes
   gem "better_errors"
   gem "tapp"
+  gem "awesome_print"
 end
 
 # Utility
