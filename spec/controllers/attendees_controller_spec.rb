@@ -66,7 +66,7 @@ describe AttendeesController do
       let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
       let!(:event) { FactoryGirl.create(:event, group_id: group.id) }
       before { bypass_rescue }
-      it { expect { put :attend, event_id: event.to_param, group_id: group.to_param }.to raise_error(User::UnAuthorized) }
+      it { expect { put :attend, event_id: event.to_param, group_id: group.to_param }.to raise_error(Authentication::Unauthenticated) }
     end
   end
 
