@@ -19,7 +19,7 @@ end
 
 shared_context "visit_event_page" do
   let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
-  let(:event) { FactoryGirl.create(:event, group: group, owner_user_id: you.id) }
+  let(:event) { FactoryGirl.create(:event, group_id: group.id, owner_user_id: you.id) }
   before { visit group_event_path(group_id: group.id, id: event.id) }
 end
 

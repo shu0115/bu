@@ -8,6 +8,7 @@ shared_examples 'member of group' do
   include_context 'group exists'
 
   before do
+    login_as(you)
     Group.any_instance.stub(:secret?) { false }
     action
   end

@@ -57,7 +57,7 @@ describe EventsController do
     let(:event) { FactoryGirl.attributes_for(:event) }
 
     before do
-      @request.session[:user_id] = you.id
+      login_as(you)
     end
 
     context 'あなたがメンバーではない場合' do
@@ -103,7 +103,7 @@ describe EventsController do
     let(:event) { FactoryGirl.create(:event, group_id: group.to_param, owner_user_id: you.to_param) }
 
     before do
-      @request.session[:user_id] = you.id
+      login_as(you)
     end
 
     context 'あなたがイベント管理者ではない場合' do
@@ -146,7 +146,7 @@ describe EventsController do
     let!(:event) { FactoryGirl.create(:event, group_id: group.to_param, owner_user_id: you.to_param) }
 
     before do
-      @request.session[:user_id] = you.id
+      login_as(you)
     end
 
     context 'あなたがイベントマネージャーの場合' do

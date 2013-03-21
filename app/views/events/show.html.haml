@@ -52,17 +52,17 @@
     %p=_ 'This event has ended.'
   %b=_ 'Your state'
   \:
-  - if @user.nil?
+  - if current_user.nil?
     =_ :unknown
     - if @group.public?
       %span.update.atnd
         %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
     - else
-      = link_to 'Please login...', '/users/new'
-  - elsif atnd = @user.atnd(@event)
+      = link_to 'Please login...', login_path
+  - elsif atnd = current_user.atnd(@event)
     %span.atnd== #{_ atnd.state.capitalize}
     %span.update= link_to _(:cancel), delete_group_event_attendees_path(event_id: @event.id), method: :put
-  - elsif @group.member?(@user)
+  - elsif @group.member?(current_user)
     =_ :unknown
     %span.update.atnd
       %span.attend= link_to _(:attend), attend_group_event_attendees_path(event_id: @event.id), method: :put
@@ -114,7 +114,7 @@
         = user_name(user)
 
 %h2=_ 'Comments and Logs'
-- if @user and @group.member?(@user)
+- if current_user and @group.member?(current_user)
   = render 'comments/form', comment: @comment, group: @group, event: @event
 
 %table.comments
@@ -129,7 +129,7 @@
         %span.small= link_to date_time(comment.created_at), group_event_comment_path(group_id: @group.id, event_id: @event.id, id: comment.id)
 
 
-- if @user and @event.manager?(@user)
+- if current_user and @event.manager?(current_user)
   .admin_menu
     %h2=_ 'admin menu'
     = link_to _(:Edit), edit_group_event_path(group_id: @group.id, id: @event.id)
