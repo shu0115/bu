@@ -1,9 +1,9 @@
 # coding: utf-8
 class GroupsController < ApplicationController
   skip_before_filter :require_current_user, only: [:index, :description, :show]
+
   before_filter :admin_only, only: :index
   before_filter :find_group, only: [:show, :edit, :update, :destroy]
-  #before_filter :login_required, only: [:new, :create] #TODO:権限周りはまとめて整理する
   before_filter :owner_only, only: [:edit, :update, :destroy] #TODO:権限周りはまとめて整理する
 
   def index

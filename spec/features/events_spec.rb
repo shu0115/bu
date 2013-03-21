@@ -6,7 +6,7 @@ describe "Events" do
 
   describe "GET /events/new" do
     let(:title){'event title 1'}
-    include_context 'visit_group_page'
+    let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
     before do
       visit new_group_event_path(group_id: group.id)
       fill_in 'event[title]', with: title
@@ -50,7 +50,7 @@ describe "Events" do
   describe "GET /events/1/absent" do
     include_context 'visit_event_page'
     before { click_link '欠席する' }
-    it { page.should have_content('あなたの出欠 : 欠席') }
+    it { save_and_open_page;page.should have_content('あなたの出欠 : 欠席') }
   end
 
   describe "GET /events/1/maybe" do
