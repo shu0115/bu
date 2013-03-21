@@ -1,5 +1,6 @@
 # coding: utf-8
 class MyController < ApplicationController
+  before_filter :require_current_user
   before_filter :find_user
 
   def show

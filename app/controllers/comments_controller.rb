@@ -1,6 +1,6 @@
 # coding: utf-8
 class CommentsController < ApplicationController
-  skip_before_filter :require_current_user, only: [:show]
+  before_filter :require_current_user, only: [:create, :destroy]
 
   before_filter :find_group, :find_event
   before_filter :find_comment, only: [:show, :destroy]

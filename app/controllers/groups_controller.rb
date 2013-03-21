@@ -1,6 +1,6 @@
 # coding: utf-8
 class GroupsController < ApplicationController
-  skip_before_filter :require_current_user, only: [:index, :description, :show]
+  before_filter :require_current_user, only: [:new, :create, :update, :destroy]
 
   before_filter :admin_only, only: :index
   before_filter :find_group, only: [:show, :edit, :update, :destroy]
