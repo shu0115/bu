@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_current_user
-    User.find_by_id(current_user_id)
+    User.where(id: current_user_id).first
   end
 
   def require_current_user
