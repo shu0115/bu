@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  skip_before_filter :require_current_user, only: [:index]
+
   before_filter :find_group, only: [:index, :create]
   before_filter :member_only, only: [:create]
 
@@ -31,7 +33,7 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = @group.posts.build(params[:post]) do |model|
-      model.user = @user
+      model.user = current_user
     end
 
     if @post.save
