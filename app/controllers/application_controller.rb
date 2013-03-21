@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   rescue_from Authentication::Unauthenticated do
-    flash[:notice] = 'Login failed'
+    flash[:notice] = 'Login failed' #TODO: i18n
     redirect_to login_url
   end
 
