@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+  before_filter :require_current_user
   before_filter :find_group, only: [:destroy, :join, :leave, :request_to_join, :delete_request]
   before_filter :member_only, only: [:leave]
 

@@ -1,6 +1,4 @@
 class RolesController < ApplicationController
-  skip_before_filter :require_current_user
-
   before_filter :find_group, only: [:index, :show, :update, :destroy]
   before_filter :group_member_only, only: [:index, :show]
   before_filter :find_user_group, only: [:update, :destroy]

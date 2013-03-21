@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  skip_before_filter :require_current_user, only: [:index]
+  before_filter :require_current_user, only: [:create]
 
   before_filter :find_group, only: [:index, :create]
   before_filter :member_only, only: [:create]

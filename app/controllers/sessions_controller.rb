@@ -1,7 +1,5 @@
 # coding: utf-8
 class SessionsController < ApplicationController
-  skip_before_filter :require_current_user
-
   def new
   end
 

@@ -1,4 +1,5 @@
 class AttendeesController < ApplicationController
+  before_filter :require_current_user
   before_filter :find_group, only: [:attend, :delete, :absent, :maybe]
   before_filter :find_event, only: [:attend, :delete, :absent, :maybe]
   before_filter :member_only, only: [:attend]

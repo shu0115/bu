@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include Authentication
   helper_method :current_user
-  before_filter :require_current_user
 
   protect_from_forgery
 
