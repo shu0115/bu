@@ -22,7 +22,7 @@ describe RolesController do
 
     it { assigns(:events).count.should eq events.count }
     it { assigns(:group).should eq group }
-    it { assigns(:current_user).should eq you }
+    it { assigns(:user).should eq you }
   end
 
   describe "PUT update" do

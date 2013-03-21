@@ -1,4 +1,6 @@
 class RolesController < ApplicationController
+  skip_before_filter :require_current_user
+
   before_filter :find_group, only: [:index, :show, :update, :destroy]
   before_filter :group_member_only, only: [:index, :show]
   before_filter :find_user_group, only: [:update, :destroy]
@@ -10,11 +12,11 @@ class RolesController < ApplicationController
   end
 
   def show #TODO: members#showに移動する?
-    @current_user = @group.users.find(params[:id])
-    @user_group = @current_user.user_group(@group)
+    @user = @group.users.find(params[:id])
+    @user_group = @user.user_group(@group)
 
     time = @user_group.created_at
-    if oldst = @current_user.user_events.minimum(:created_at)
+    if oldst = @user.user_events.minimum(:created_at)
       time = oldst if oldst < time
     end
     @events = @group.events.where('created_at >= ?', time)
