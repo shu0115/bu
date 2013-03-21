@@ -50,7 +50,7 @@ describe "Events" do
   describe "GET /events/1/absent" do
     include_context 'visit_event_page'
     before { click_link '欠席する' }
-    it { save_and_open_page;page.should have_content('あなたの出欠 : 欠席') }
+    it { page.should have_content('あなたの出欠 : 欠席') }
   end
 
   describe "GET /events/1/maybe" do
