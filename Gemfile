@@ -46,7 +46,6 @@ group :test, :development do
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers', :git => 'git://github.com/thoughtbot/shoulda-matchers.git', :ref => 'fd4aa5'
-  gem 'simplecov', require: false
   #gem 'rails-erd'
 
   gem "sextant"  # /rails/routes
