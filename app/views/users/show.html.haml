@@ -1,18 +1,18 @@
 %p#notice= notice
 
-%h1= @current_user.name
+%h1= @user.name
 
 %table
   %tr
     %td
-      = image_tag @current_user.img, :class => 'user_icon_big'
+      = image_tag @user.img, :class => 'user_icon_big'
     %td.top
       .twitter
-        - if screen_name = @current_user.screen_name
+        - if screen_name = @user.screen_name
           = link_to "twitter", "https://twitter.com/#!/#{screen_name}"
       .profile
         profile...
 
 %h2=_'Groups'
-- @groups = @current_user.groups
-= render '/groups/groups', { groups: @groups, current_user: @current_user }
+- @groups = @user.groups
+= render '/groups/groups', { groups: @groups, user: @user }
