@@ -62,6 +62,10 @@ describe CommentsController do
     let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
     let(:event) { FactoryGirl.create(:event, group_id: group.id) }
     let!(:comment) { FactoryGirl.create(:comment, event_id: event.id) }
+    
+    before do
+      login_as(you)
+    end
 
     it "1件減っていること" do
       expect {
