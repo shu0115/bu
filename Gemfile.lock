@@ -281,7 +281,6 @@ DEPENDENCIES
   sass-rails (~> 3.2.1)
   sextant
   shoulda-matchers!
-  simplecov
   sqlite3
   tapp
   thin
