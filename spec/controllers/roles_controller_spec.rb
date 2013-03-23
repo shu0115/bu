@@ -2,6 +2,7 @@
 require 'spec_helper'
 
 describe RolesController do
+  render_views
   let(:you) { FactoryGirl.create(:user) }
 
   context 'GET index' do
