@@ -16,16 +16,16 @@
           %tr
             %td
               = link_to 'Home', root_path
-              - if @user
+              - if current_user
                 = link_to 'My page', my_path
               = link_to 'About', about_path
             %td.right
-              - if @user
+              - if current_user
                 = link_to 'Settings', edit_my_path
-                = link_to "Sign out(#{@user.name})", logout_path
+                = link_to "Sign out(#{current_user.name})", logout_path
               - else
                 = link_to 'Sign in with twitter', '/auth/twitter'
-      - if @user and !@user.mail?
+      - if current_user and !current_user.mail?
         .input_mail
           %p.bold= link_to 'Please input your mail address', edit_my_path
       %div{:class => controller_name}

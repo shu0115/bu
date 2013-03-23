@@ -1,6 +1,6 @@
 %h1
   = link_to @group.name, group_path(@group)
-  = @current_user.name
+  = @user.name
   =_ "'s ATNDS"
 
 %table
@@ -10,7 +10,7 @@
     %th=_ :atnd
   - @events.each do |event|
     %tr
-      - atnd = @current_user.atnd(event)
+      - atnd = @user.atnd(event)
       %td
         = year_month_day event.started_at
       %td
