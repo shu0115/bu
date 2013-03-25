@@ -7,7 +7,7 @@ def hg(g)
   (ENV['HOME'].gsub('/','') == 'app' ? :test : g)
 end
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 group :preview do
   gem 'pg'
@@ -46,13 +46,13 @@ group :test, :development do
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers', :git => 'git://github.com/thoughtbot/shoulda-matchers.git', :ref => 'fd4aa5'
-  gem 'simplecov', require: false
   #gem 'rails-erd'
 
   gem "sextant"  # /rails/routes
   gem "better_errors"
   gem "tapp"
   gem "awesome_print"
+  gem 'coveralls', require: false
 end
 
 # Utility
