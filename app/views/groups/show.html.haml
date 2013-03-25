@@ -88,7 +88,7 @@
             %td{:class => @group.manager?(user) ? 'bold' : '' }
               = link_to "#{user.name}(#{user.attendance_count(@group)})", user_path(user.id)
             %td
-              = user.recent_entry_count(@group, 10)
+              = user.user_groups.first.recent_entry_count(10)
             %td
               = user.events_count
             %td

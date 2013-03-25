@@ -19,29 +19,6 @@ class User < ActiveRecord::Base
 
   attr_accessor :locale
 
-  # 過去参加数
-  def entry_count(group)
-    # キャンセルされていない終了しているイベントのidを取得
-    active_event_ids = Event.where(group_id: group.id, canceled: false).where("ended_at < ?", Time.now).pluck(:id)
-
-    # ユーザのイベント参加数をカウント
-    self.attendance_event_count(active_event_ids)
-  end
-
-  # 直近参加数
-  def recent_entry_count(group, recent=10)
-    # キャンセルされていない終了しているイベントのidを取得
-    active_event_ids = Event.where(group_id: group.id, canceled: false).where("ended_at < ?", Time.now).order( "started_at DESC" ).limit(recent).pluck(:id)
-
-    # ユーザのイベント参加数をカウント
-    self.attendance_event_count(active_event_ids)
-  end
-
-  # ユーザ参加イベント数カウント
-  def attendance_event_count(event_ids)
-    UserEvent.where(user_id: self.id, event_id: event_ids, state: "attendance").count
-  end
-
   def attendance_count(group)
     # グループ参加日時
     joined_time = user_groups.find_by_group_id(group.id).created_at
