@@ -50,7 +50,7 @@ describe EventsController do
       end
     end
   end
-  
+
   describe "POST 'create'" do
     let(:you) { FactoryGirl.create(:user) }
     let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
@@ -68,7 +68,7 @@ describe EventsController do
       end
 
       it 'NotGroupMemberになること' do
-        expect { 
+        expect {
           post :create, {event: event, group_id: group.to_param}
         }.to raise_error(Group::NotGroupMember)
       end
@@ -113,7 +113,7 @@ describe EventsController do
       end
 
       it 'NotEventManagerになること' do
-        expect { 
+        expect {
           put :update, event: {}, id: event.to_param, group_id: group.to_param
         }.to raise_error(Event::NotEventManager)
       end
@@ -121,7 +121,7 @@ describe EventsController do
 
     context 'あなたがイベント管理者の場合' do
       before { Event.any_instance.stub(:manager?) { true } }
-      
+
       context '有効なパラメータが送信された時' do
         before do
           Event.any_instance.stub(:update_attributes) { true }
@@ -154,7 +154,7 @@ describe EventsController do
         Event.any_instance.stub(:manager?) { true }
       end
 
-      it '削除できる' do 
+      it '削除できる' do
         expect {
           delete :destroy, id: event.to_param, group_id: group.to_param
         }.to change(Event, :count).by(-1)
@@ -168,7 +168,7 @@ describe EventsController do
       end
 
       it 'NotEventManagerになること' do
-        expect { 
+        expect {
           delete :destroy, id: event.to_param, group_id: group.to_param
         }.to raise_error(Event::NotEventManager)
       end

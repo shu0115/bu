@@ -1,3 +1,4 @@
+# coding: utf-8
 class Comment < ActiveRecord::Base
   attr_accessible :event_id, :text
   delegate :name, to: :user, prefix: :user

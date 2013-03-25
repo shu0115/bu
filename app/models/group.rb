@@ -1,8 +1,10 @@
+# coding: utf-8
 class Group < ActiveRecord::Base
   class NotGroupOwner < Exception ; end
   class NotGroupManager < Exception ; end
   class NotGroupMember < Exception ; end
 
+  attr_accessible :name, :summary
   attr_protected :owner_user_id
 
   validates :name, :presence => true, :length => { :maximum => 32 }

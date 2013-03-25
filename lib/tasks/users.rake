@@ -1,3 +1,4 @@
+# coding: utf-8
 namespace :users do
   # rake users:events_count
   desc 'イベント参加数カウント更新'

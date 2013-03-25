@@ -1,5 +1,6 @@
+# coding: utf-8
 class UserEvent < ActiveRecord::Base
-  attr_accessible :state, :event_id
+  attr_accessible :state, :event_id, :user_id
 
   belongs_to :user
   belongs_to :event

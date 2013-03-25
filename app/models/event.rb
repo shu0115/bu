@@ -3,6 +3,8 @@ class Event < ActiveRecord::Base
   class NotEventOwner < Exception ; end
   class NotEventManager < Exception ; end
 
+  attr_accessible :title, :limit, :started_at, :ended_at, :group_id, :canceled, :place, :address, :description, :image_url, :ended
+
   belongs_to :group
 
   has_many :comments, dependent: :destroy
