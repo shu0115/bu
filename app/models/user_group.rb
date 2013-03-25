@@ -13,7 +13,7 @@ class UserGroup < ActiveRecord::Base
     active_event_ids = Event.where(group_id: self.group_id, canceled: false).where("ended_at < ?", Time.now).pluck(:id)
 
     # ユーザのイベント参加数をカウント
-    self.attendance_event_count(active_event_ids)
+    UserEvent.attendance_event_count(self.user_id, active_event_ids)
   end
 
   # 直近参加数
@@ -22,11 +22,6 @@ class UserGroup < ActiveRecord::Base
     active_event_ids = Event.where(group_id: self.group_id, canceled: false).where("ended_at < ?", Time.now).order( "started_at DESC" ).limit(recent).pluck(:id)
 
     # ユーザのイベント参加数をカウント
-    self.attendance_event_count(active_event_ids)
-  end
-
-  # ユーザ参加イベント数カウント
-  def attendance_event_count(event_ids)
-    UserEvent.where(user_id: self.user_id, event_id: event_ids, state: "attendance").count
+    UserEvent.attendance_event_count(self.user_id, active_event_ids)
   end
 end
