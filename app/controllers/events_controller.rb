@@ -1,7 +1,9 @@
 class EventsController < ApplicationController
+  before_filter :require_current_user, only: [:create, :update, :destroy, :be_active, :cancel]
+
   rescue_from ActiveRecord::RecordInvalid, :with => -> { redirect_to :back, :notice => 'error' }
 
-  before_filter :find_group, only: [:new, :edit, :show, :create, :update, :destroy, :be_active, :cancel]
+  before_filter :find_group
   before_filter :member_only, only: [:new, :edit, :show]
   before_filter :member_only_for_create, only: [:create]
   before_filter :find_event, only: [:show, :update, :destroy]
@@ -97,10 +99,6 @@ class EventsController < ApplicationController
 
   def event_manager_only #TODO
     only_event_manager(@event)
-  end
-
-  def current_user
-    @user
   end
 
   def find_event_from_event_id #TODO

@@ -15,7 +15,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 module Helpers
   def login_as(user)
-    request.session[:user_id] = user.id
+    controller.login! user
   end
 end
 

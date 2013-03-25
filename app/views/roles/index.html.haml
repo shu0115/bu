@@ -5,7 +5,7 @@
 %p#notice= notice
 
 .users
-  - is_manager = @user && @group.manager?(@user)
+  - is_manager = current_user && @group.manager?(current_user)
   %table
     %tr
       %th
@@ -45,6 +45,6 @@
               = link_to _(:remove), group_role_path(id: user.user_group(@group), group_id: @group.id), :confirm => 'Are you sure?', :method => :delete
 .bottom_menu
   = link_to @group.name, group_path(@group.id)
-  - if @group.manager?(@user) and !@group.public?
+  - if @group.manager?(current_user) and !@group.public?
     - text = "#{_('listing requests')}(#{@group.requesting_users.count})"
-    = link_to text, group_groups_member_requests_path(@group.id)
+    = link_to text, group_memberships_path(group_id: @group.id)

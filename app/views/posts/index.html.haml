@@ -12,7 +12,7 @@
   .post
     .head{:id => post.idx}
       == #{post.idx} : #{post.user_name} :
-      = link_to date_time(post.created_at), "/groups/#{@group.id}/posts/#{post.idx}"
+      = link_to date_time(post.created_at), index_group_posts_path(group_id: @group.id, renge: post.idx)
     .body
       %h3= post.subject
       != simple_html_compiler(post.text)
@@ -21,5 +21,5 @@
 
 = render 'menu', group: @group
 
-- if @group.member?(@user)
+- if @group.member?(current_user)
   = render 'form', post: @post

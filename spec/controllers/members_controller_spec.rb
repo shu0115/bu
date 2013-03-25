@@ -8,7 +8,6 @@ describe MembersController do
     let!(:group) { FactoryGirl.create(:group) }
 
     context 'Loginしているとき' do
-      let(:you) { FactoryGirl.create(:user) }
       before do
         login_as(you)
         put :join, group_id: group.to_param
@@ -19,7 +18,7 @@ describe MembersController do
 
     context 'Loginしていないとき' do
       before { bypass_rescue }
-      it { expect { put :join, group_id: group.to_param }.to raise_error(User::UnAuthorized) }
+      it { expect { put :join, group_id: group.to_param }.to raise_error(Authentication::Unauthenticated) }
     end
   end
 
@@ -29,7 +28,7 @@ describe MembersController do
       let!(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
 
       before { bypass_rescue }
-      it { expect { put :join, group_id: group.to_param }.to raise_error(User::UnAuthorized) }
+      it { expect { put :join, group_id: group.to_param }.to raise_error(Authentication::Unauthenticated) }
     end
 
     context 'ログインしている場合' do
@@ -77,7 +76,7 @@ describe MembersController do
       let!(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
 
       before { bypass_rescue }
-      it { expect { put :request_to_join, group_id: group.to_param }.to raise_error(User::UnAuthorized) }
+      it { expect { put :request_to_join, group_id: group.to_param }.to raise_error(Authentication::Unauthenticated) }
     end
 
     context 'ログインしている場合' do

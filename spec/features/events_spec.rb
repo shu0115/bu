@@ -6,7 +6,7 @@ describe "Events" do
 
   describe "GET /events/new" do
     let(:title){'event title 1'}
-    include_context 'visit_group_page'
+    let(:group) { FactoryGirl.create(:group, owner_user_id: you.id) }
     before do
       visit new_group_event_path(group_id: group.id)
       fill_in 'event[title]', with: title

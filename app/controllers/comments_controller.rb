@@ -1,15 +1,17 @@
 # coding: utf-8
 class CommentsController < ApplicationController
+  before_filter :require_current_user, only: [:create, :destroy]
+
   before_filter :find_group, :find_event
   before_filter :find_comment, only: [:show, :destroy]
-  before_filter :login_required, :group_member_only, only: :create
+  before_filter :group_member_only, only: :create
 
   def show
   end
 
   # POST /comments
   def create
-    @comment = @user.comments.new(params[:comment])
+    @comment = current_user.comments.new(params[:comment])
     if @comment.save
       redirect_to group_event_url(group_id: @group.id, id: @event.id), notice: 'Comment was successfully created.'
     else

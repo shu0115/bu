@@ -1,10 +1,10 @@
 class MembersController < ApplicationController
+  before_filter :require_current_user
   before_filter :find_group, only: [:destroy, :join, :leave, :request_to_join, :delete_request]
-  before_filter :login_required, only: [:join, :destroy, :request_to_join, :delete_request]
   before_filter :member_only, only: [:leave]
 
   def leave
-    @group.users.delete(@user)
+    @group.users.delete(current_user)
     redirect_to @group, notice: 'Left.'
   end
 
@@ -14,10 +14,10 @@ class MembersController < ApplicationController
       return
     end
 
-    if @group.member?(@user)
+    if @group.member?(current_user)
       redirect_to group_url(@group.id), notice: 'You already are a member of this group.'
     else
-      @group.users << @user
+      @group.users << current_user
       redirect_to group_url(@group.id), notice: 'Joined.'
     end
   end
@@ -28,19 +28,19 @@ class MembersController < ApplicationController
       return
     end
 
-    if @group.member?(@user)
+    if @group.member?(current_user)
       redirect_to @group, notice: 'You already are a member of this group.'
-    elsif @group.requesting_user?(@user)
+    elsif @group.requesting_user?(current_user)
       redirect_to @group, notice: 'You already requested to join this group.'
     else
-      @group.requesting_users << @user
+      @group.requesting_users << current_user
       redirect_to @group, notice: 'Requested.'
     end
   end
 
   def delete_request
-    if @group.requesting_user?(@user)
-      @group.requesting_users.delete @user
+    if @group.requesting_user?(current_user)
+      @group.requesting_users.delete current_user
       redirect_to @group, notice: 'Deleted request.'
     else
       redirect_to @group, notice: 'Not deleted request.'

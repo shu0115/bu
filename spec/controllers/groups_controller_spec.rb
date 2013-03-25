@@ -32,8 +32,9 @@ describe GroupsController do
 
   describe "GET 'new'" do
     context 'LoginUserはアクセスできること' do
+      let(:you) { FactoryGirl.create(:user) }
       before do
-        GroupsController.any_instance.stub(:login_required) { true }
+        login_as(you)
         get :new
       end
 
@@ -42,7 +43,7 @@ describe GroupsController do
 
     context 'Not LoginUserはアクセスできないこと' do
       before { bypass_rescue }
-      it { expect { get :new }.to raise_error(User::UnAuthorized) }
+      it { expect { get :new }.to raise_error(Authentication::Unauthenticated) }
     end
   end
 
@@ -99,7 +100,7 @@ describe GroupsController do
 
       context "without login" do
         before { bypass_rescue }
-        it { expect { post :create, {group: group} }.to raise_error(User::UnAuthorized) }
+        it { expect { post :create, {group: group} }.to raise_error(Authentication::Unauthenticated) }
       end
     end
 
@@ -167,7 +168,6 @@ describe GroupsController do
     context 'Ownerの場合は削除できること' do
       let(:owner) { you }
       it { expect { delete :destroy, {id: group.to_param} }.to change(Group, :count).by(-1) }
-      pending { response.should redirect_to(my_url) }
     end
 
     context 'Not Ownerの場合は削除できないこと' do

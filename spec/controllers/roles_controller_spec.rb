@@ -2,6 +2,7 @@
 require 'spec_helper'
 
 describe RolesController do
+  render_views
   let(:you) { FactoryGirl.create(:user) }
 
   context 'GET index' do
@@ -22,7 +23,7 @@ describe RolesController do
 
     it { assigns(:events).count.should eq events.count }
     it { assigns(:group).should eq group }
-    it { assigns(:current_user).should eq you }
+    it { assigns(:user).should eq you }
   end
 
   describe "PUT update" do
