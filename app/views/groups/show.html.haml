@@ -80,7 +80,8 @@
                 = link
               - else
                 %b= link
-        - @group.users.each do |user|
+        -# @group.users.each do |user|
+        - @members.each do |user|
           %tr
             %td
               = user_icon user, :middle
@@ -89,7 +90,7 @@
             %td
               = user.recent_entry_count(@group, 10)
             %td
-              = user.entry_count(@group)
+              = user.events_count
             %td
               - if @group.owner?(user)
                 =_ :owner

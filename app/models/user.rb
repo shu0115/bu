@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   class UnAuthorized < Exception ; end
   class NotAdministrator < Exception ; end
 
+  attr_accessible :events_count
+
   validates :name, :presence => true,
                    :length => { :maximum => 16 }
   validates_uniqueness_of :uid, :scope => [:provider]
