@@ -55,6 +55,7 @@ group :test, :development do
   gem "tapp"
   gem "awesome_print"
   gem 'coveralls', require: false
+  gem "awesome_print"
 end
 
 # Utility
