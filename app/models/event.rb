@@ -18,6 +18,8 @@ class Event < ActiveRecord::Base
   validates :limit,   numericality: { greater_than_or_equal_to:    1,
                                       less_than_or_equal_to:    1000 }
 
+  scope :closed, lambda { where(events: { canceled: false }).where("events.ended_at < ?", Time.now) }
+
   def img
     src = image_src
     src = group.image_src if src.empty?

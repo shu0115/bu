@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
 
   def show
     @events  = @group.events.limit(7)
-    @members = @group.users.includes(:user_groups).order("users.events_count DESC")
+    @members = @group.users.includes(:user_groups).order("user_groups.attendance DESC")
     set_subtitle
   end
 

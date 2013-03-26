@@ -94,24 +94,21 @@ ActiveRecord::Schema.define(:version => 20130325074824) do
     t.integer  "user_id"
     t.integer  "group_id"
     t.string   "state"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.string   "role"
+    t.integer  "attendance", :default => 0, :null => false
   end
-
-  add_index "user_groups", ["group_id"], :name => "index_user_groups_on_group_id"
-  add_index "user_groups", ["user_id"], :name => "index_user_groups_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "provider"
     t.string   "uid"
     t.string   "screen_name"
     t.string   "mail"
     t.string   "image"
-    t.integer  "events_count", :default => 0, :null => false
   end
 
 end

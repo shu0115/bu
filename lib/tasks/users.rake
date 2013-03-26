@@ -7,7 +7,8 @@ namespace :users do
 
     groups.each { |group|
       group.users.each { |user|
-        user.update_attributes( events_count: user.entry_count(group) )
+        attendance = UserEvent.attendance_event_count(user.id, Event.closed.where(group_id: group.id).pluck(:id))
+        UserGroup.where(user_id: user.id, group_id: group.id).first.update_attributes( attendance: attendance )
       }
     }
   end

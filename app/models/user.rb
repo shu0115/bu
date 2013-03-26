@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   class UnAuthorized < Exception ; end
   class NotAdministrator < Exception ; end
 
-  attr_accessible :events_count, :uid, :provider, :name, :mail, :image, :locale
+  attr_accessible :uid, :provider, :name, :mail, :image, :locale
 
   validates :name, :presence => true,
                    :length => { :maximum => 16 }
@@ -18,6 +18,16 @@ class User < ActiveRecord::Base
   has_many :requested_groups, :source => :group, :through => :member_requests
 
   attr_accessor :locale
+
+  # グループ内イベント総参加数
+  def group_event_attendance(group)
+    UserGroup.where(user_id: self.id, group_id: group.id).first.attendance
+  end
+
+  # 直近参加数
+  def recent_entry_count(group)
+    UserGroup.where(user_id: self.id, group_id: group.id).first.recent_entry_count
+  end
 
   def attendance_count(group)
     # グループ参加日時

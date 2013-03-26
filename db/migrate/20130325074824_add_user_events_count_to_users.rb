@@ -1,5 +1,5 @@
 class AddUserEventsCountToUsers < ActiveRecord::Migration
   def change
-    add_column :users, :events_count, :integer, null: false, default: 0
+    add_column :user_groups, :attendance, :integer, null: false, default: 0
   end
 end
