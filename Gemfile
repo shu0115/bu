@@ -50,18 +50,20 @@ group :test, :development do
   gem 'shoulda-matchers', :git => 'git://github.com/thoughtbot/shoulda-matchers.git', :ref => 'fd4aa5'
   #gem 'rails-erd'
 
-  gem "sextant"  # /rails/routes
-  gem "better_errors"
-  gem "tapp"
+  gem 'sextant'  # /rails/routes
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'tapp'
+  gem 'awesome_print'
   gem 'coveralls', require: false
 end
 
 # Utility
-gem "action_args"
+gem 'action_args'
 gem 'html5_validators'
 
 # Translation
-gem "i18n_generators"
+gem 'i18n_generators'
 
 # Exception Error Notice
-gem "exception_notification"
+gem 'exception_notification'

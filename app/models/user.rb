@@ -1,6 +1,9 @@
+# coding: utf-8
 class User < ActiveRecord::Base
   class UnAuthorized < Exception ; end
   class NotAdministrator < Exception ; end
+
+  attr_accessible :events_count, :uid, :provider, :name, :mail, :image, :locale
 
   validates :name, :presence => true,
                    :length => { :maximum => 16 }
@@ -17,7 +20,11 @@ class User < ActiveRecord::Base
   attr_accessor :locale
 
   def attendance_count(group)
+    # グループ参加日時
     joined_time = user_groups.find_by_group_id(group.id).created_at
+
+    # 参加イベント数(未キャンセル／グループ参加日時以降に開始するイベントのみ)
+    # FIXME: rake events:closeタスクが実行されていないためevents.endedがtrueになっていないのではないか？(だからユーザ名横の数値がおかしい？)
     user_events.joins(:event).where(:state => "attendance", "events.group_id" => group.id, "events.ended" => true, "events.canceled" => false).where("events.started_at > ?", joined_time).count
   end
 

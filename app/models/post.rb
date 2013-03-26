@@ -1,3 +1,4 @@
+# coding: utf-8
 class Post < ActiveRecord::Base
   attr_accessible :group_id, :idx, :notification, :subject, :text
   delegate :name, to: :user, prefix: :user

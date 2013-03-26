@@ -4,7 +4,7 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
  *= require_tree ../../../vendor/assets
- *= require_tree . 
+ *= require_tree .
 */
 
 /*.actions input {
@@ -138,7 +138,7 @@ div.events {
       border-radius: 4px;
     }
   }
-  
+
   div.description {
     margin: 16px 0;
   }
@@ -284,4 +284,12 @@ div.post .body {
 div.post_menu {
   margin-top: 16px;
   margin-bottom: 6px;
+}
+
+/* テーブル */
+.members table, .members tr, .members th, .members td {
+  border: 1px solid #aaa;
+  padding: 5px;
+  border-collapse: collapse;
+  border-spacing: 0px;
 }

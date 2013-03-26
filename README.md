@@ -27,7 +27,7 @@ $ rails server
 # 開発に参加するには
 
 - [buktdev - Lingr](http://lingr.com/room/buktdev) に開発の相談ができるチャットルームを設置しています。
-- `rake routes` でルートの一覧を表示できます。(「http://0.0.0.0:3000/rails/routes」でも確認可能です。)
+- `rake routes` でルートの一覧を表示できます。( http://0.0.0.0:3000/rails/routes でも確認可能です。)
 - `rake spec` を実行し、既存のテストを壊していないことを確認してください。
 - git に不慣れな方は以下を参考にしてください。わからないところは気軽に Lingr で聞いてください。
   - [GitHubへpull requestする際のベストプラクティス](http://d.hatena.ne.jp/hnw/20110528)
