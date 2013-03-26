@@ -9,11 +9,8 @@ class UserGroup < ActiveRecord::Base
 
   # 直近参加数
   def recent_entry_count
-    # キャンセルされていない終了しているイベントのidを取得
-    active_event_ids = Event.closed.where(group_id: self.group_id).order("started_at DESC").limit(configatron.recent_entry_coun).pluck(:id)
-
     # ユーザのイベント参加数をカウント
-    UserEvent.attendance_event_count(self.user_id, active_event_ids)
+    UserEvent.attendance_event_count(user_id, group.events.closed.in_recent_times.pluck(:id))
   end
 
   private

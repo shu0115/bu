@@ -19,6 +19,7 @@ class Event < ActiveRecord::Base
                                       less_than_or_equal_to:    1000 }
 
   scope :closed, lambda { where(events: { canceled: false }).where("events.ended_at < ?", Time.now) }
+  scope :in_recent_times, lambda { order("events.started_at DESC").limit(configatron.recent_entry_coun) }
 
   def img
     src = image_src
