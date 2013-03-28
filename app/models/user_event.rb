@@ -13,7 +13,7 @@ class UserEvent < ActiveRecord::Base
   after_destroy :update_events_count
 
   def update_events_count
-    user.user_groups.find(event_group_id).update_attributes( attendance: UserEvent.attendance_event_count(user_id, event.group.events.closed.pluck(:id)) )
+    user.user_groups.where(group_id: event_group_id).first.update_attributes( attendance: UserEvent.attendance_event_count(user_id, event.group.events.closed.pluck(:id)) )
   end
 
   private

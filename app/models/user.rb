@@ -21,12 +21,12 @@ class User < ActiveRecord::Base
 
   # グループ内イベント総参加数
   def group_event_attendance(group)
-    UserGroup.where(user_id: self.id, group_id: group.id).first.attendance
+    user_groups.where(group_id: group.id).first.attendance
   end
 
   # 直近参加数
   def recent_entry_count(group)
-    UserGroup.where(user_id: self.id, group_id: group.id).first.recent_entry_count
+    user_groups.where(group_id: group.id).first.recent_entry_count
   end
 
   def attendance_count(group)
