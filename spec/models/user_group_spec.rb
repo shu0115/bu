@@ -14,11 +14,10 @@ describe UserGroup do
   end
 
   describe "entry count" do
-    before { FactoryGirl.create(:group) }
     before { FactoryGirl.create(:event, group_id: group.id) }
     let(:user) { FactoryGirl.create(:user) }
     let(:group) { FactoryGirl.create(:group) }
-    let(:user_group) { FactoryGirl.create(:user_group) }
+    let(:user_group) { FactoryGirl.create(:user_group, user_id: user.id, group_id: group.id) }
 
     it '直近参加数が一致すること' do
       user_group.recent_entry_count.should eq UserEvent.where(user_id: user.id, event_id: Event.closed.in_recent_times.where(group_id: group.id).pluck(:id), state: "attendance").count
